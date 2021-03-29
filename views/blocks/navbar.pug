@@ -1,0 +1,121 @@
+doctype html
+html
+head
+
+  <meta content="Embed Title" property="og:title">
+  <meta content="Sebastian Mandal's Personal Website" property="og:description">
+  <meta content="https://sebmandal.com" property="og:url">
+  <meta content="https://cdn.discordapp.com/avatars/399596706402009100/e1ff0f6a12bf3b68e14ed0d9bcadfc19.webp?size=1024" property="og:image">
+  <meta content="#43B581" data-react-helmet="true" name="theme-color">
+
+  title sebmandal.com
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel='stylesheet' href='style.css')
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js')
+  link(rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css")
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+  style.
+    input {
+      -webkit-appearance: none;
+      outline: none;
+      background: transparent;
+      border: none;
+    }
+body
+  nav.navbar.navbar-inverse(style="border-radius: 0;")
+    .container-fluid
+      .navbar-header
+        button.navbar-toggle(type='button' data-toggle='collapse' data-target='#myNavbar')
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href='#') sebmandal.com
+      #myNavbar.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a(href='/') Home
+          li
+            a(href='/profile') Profile
+          //- li.dropdown
+          //-   a.dropdown-toggle(data-toggle='dropdown' href='#')
+          //-     | Page 1 
+          //-     span.caret
+          //-   ul.dropdown-menu
+          //-     li
+          //-       a(href='#') Page 1-1
+          //-     li
+          //-       a(href='#') Page 1-2
+          //-     li
+          //-       a(href='#') Page 1-3
+        if !authorized
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='' data-toggle='modal' data-target='#signupModal')
+                span.glyphicon.glyphicon-user
+                |  Sign Up
+            li
+              a(href='' data-toggle='modal' data-target='#loginModal')
+                span.glyphicon.glyphicon-log-in
+                |  Log in
+        else
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/logout')
+                span.glyphicon.glyphicon-user
+                |  Log Out
+  #loginModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='loginModal' aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          .col-md-10
+            h3#exampleModalLongTitle.modal-title Login
+          .col-md-2
+            button.close(type='button' data-dismiss='modal' aria-label='Close')
+              span(aria-hidden='true') &times;
+        form(action='/login', method='POST' enctype='application/x-www-form-urlencoded')
+          .modal-body
+            .row
+              .col-md-12
+                .mb-3
+                  label Email
+                  input(type="email", name="email", placeholder="email" autocorrect="off" autocapitalize="off" spellcheck="false" required).form-control
+                br
+                .mb-3
+                  label Password
+                  input(type="password", name="secret", placeholder="password" required).form-control
+          .modal-footer
+            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+            input(type="submit", value="Login").btn.btn-primary
+        //-   button.btn.btn-primary(type='button') Save changes
+  #signupModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='signupModal' aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          .col-md-10
+            h3#exampleModalLongTitle.modal-title Sign up
+          .col-md-2
+            button.close(type='button' data-dismiss='modal' aria-label='Close')
+              span(aria-hidden='true') &times;
+        form(action='/signup', method='POST' enctype='application/x-www-form-urlencoded')
+          .modal-body
+            .row
+              .col-md-12
+                .mb-3
+                  label Name
+                  input(type="text", name="name", placeholder="name" required).form-control
+                br
+                .mb-3
+                  label Email
+                  input(type="email", name="email", placeholder="email" autocorrect="off" autocapitalize="off" spellcheck="false" required).form-control
+                br
+                .mb-3
+                  label Password
+                  input(type="password", name="secret", placeholder="password" required).form-control
+          .modal-footer
+            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+            input(type="submit", value="Login").btn.btn-primary
+            //- button.btn.btn-primary(type='button') Save changes
+  block content

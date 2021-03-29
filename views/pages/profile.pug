@@ -1,0 +1,69 @@
+extends ../blocks/navbar
+block content
+  .container
+    h3 Welcome back, #{user.name}!
+    hr
+    div
+    - var todoAvailable = false;
+    - todos.map(todo => { if (todo.author === user.email && !todo.deleted) { todoAvailable = true; }})
+      if todoAvailable
+        .row(style="margin-top: 2rem; margin-bottom: 2rem; background: #eee;")
+          .col-md-3
+            h5 Your tasks
+          .col-md-6
+            h5 Description
+          .col-md-2
+            h5 Due Date
+          .col-md-1
+            a(href='' data-toggle='modal' data-target='#projectModal')
+              h5 
+                i.fa.fa-plus
+        for todo in todos
+          if !todo.deleted
+            .row(style="margin-top: 2rem; margin-bottom: 2rem;")
+              .col-md-3
+                h5 #{todo.name}
+              .col-md-6
+                h5 #{todo.description}
+              .col-md-2
+                h5 #{todo.dueDate}
+              .col-md-1
+                a(href=`/deleteproject/${todo.id}`)
+                  h5.fa.fa-trash
+        hr
+      else
+        .row
+          .col-md-11
+            h3 You have no tasks to do, press the plus button to the right to create one.
+          .col-md-1
+            a(href='' data-toggle='modal' data-target='#projectModal')
+              h5 
+                i.fa.fa-plus
+        hr
+    #projectModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='projectModal' aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            .col-md-10
+              h3#exampleModalLongTitle.modal-title New Task
+            .col-md-2
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+          form(action="/newproject", method="POST")
+            .modal-body
+              .row
+                .col-md-12
+                  .mb-3
+                    label Your project's name.
+                    input(type="text", name="todoName", placeholder="Todo Name" required).form-control
+                  br
+                  .mb-3
+                    label Describe your todo.
+                    input(type="text", name="todoDescription", placeholder="Description" required).form-control
+                  br
+                  .mb-3
+                    label When should this todo be done?
+                    input(type="date", name="todoDate", placeholder="Due Date" required).form-control
+            .modal-footer
+              button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+              input(type="submit", value="Submit").btn.btn-primary
