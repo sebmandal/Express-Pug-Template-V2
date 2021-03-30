@@ -2,7 +2,7 @@ doctype html
 html
 head
 
-  <meta content="Embed Title" property="og:title">
+  <meta content="sebmandal.com" property="og:title">
   <meta content="Sebastian Mandal's Personal Website" property="og:description">
   <meta content="https://sebmandal.com" property="og:url">
   <meta content="https://cdn.discordapp.com/avatars/399596706402009100/e1ff0f6a12bf3b68e14ed0d9bcadfc19.webp?size=1024" property="og:image">
@@ -24,6 +24,47 @@ head
       background: transparent;
       border: none;
     }
+    textarea {
+      width: 90%;
+      min-height: auto;
+      border: none;
+      overflow: auto;
+      outline: none;
+
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+
+      resize: none; /*remove the resize handle on the bottom right*/
+    }
+
+    .hiddendiv {
+      display: none;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  script.
+    document.addEventListener('input', function (event) {
+      if (event.target.tagName.toLowerCase() !== 'textarea') return;
+      autoExpand(event.target);
+      console.log(event.target);
+    }, false);
+    var autoExpand = function (field) {
+      // Reset field height
+      field.style.height = 'inherit';
+
+      // Get the computed styles for the element
+      var computed = window.getComputedStyle(field);
+
+      // Calculate the height
+      var height = parseInt(computed.getPropertyValue('border-top-width'), 10)
+                  + parseInt(computed.getPropertyValue('padding-top'), 10)
+                  + field.scrollHeight
+                  + parseInt(computed.getPropertyValue('padding-bottom'), 10)
+                  + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+
+      field.style.height = height + 'px';
+    };
 body
   nav.navbar.navbar-inverse(style="border-radius: 0;")
     .container-fluid

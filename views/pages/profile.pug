@@ -1,45 +1,57 @@
 extends ../blocks/navbar
 block content
+  // Welcome Message Container
   .container
     h3 Welcome back, #{user.name}!
     hr
-    div
+  // Task Container
+  .container
     - var todoAvailable = false;
     - todos.map(todo => { if (todo.author === user.email && !todo.deleted) { todoAvailable = true; }})
-      if todoAvailable
-        .row(style="margin-top: 2rem; margin-bottom: 2rem; background: #eee;")
-          .col-md-3
-            h5 Your tasks
-          .col-md-6
-            h5 Description
-          .col-md-2
-            h5 Due Date
-          .col-md-1
-            a(href='' data-toggle='modal' data-target='#projectModal')
-              h5 
-                i.fa.fa-plus
-        for todo in todos
-          if !todo.deleted
-            .row(style="margin-top: 2rem; margin-bottom: 2rem;")
+    if todoAvailable
+      .row(style="margin-top: 2rem; margin-bottom: 2rem; background: #eee;")
+        .col-md-3
+          h5 Your tasks
+        .col-md-6
+          h5 Description
+        .col-md-2
+          h5 Due Date
+        .col-md-1
+          a(href='' data-toggle='modal' data-target='#projectModal')
+            h5 
+              i.fa.fa-plus
+      for todo in todos
+        if !todo.deleted
+          .row(style="margin-top: 2rem; margin-bottom: 2rem;")
+            form(action=`/profile/changeproject/${todo.id}` method="POST")
               .col-md-3
-                h5 #{todo.name}
+                h5
+                  textarea(name="newProjectName") #{todo.name}
               .col-md-6
-                h5 #{todo.description}
+                h5
+                  textarea(name="newProjectDescription").resize #{todo.description}
               .col-md-2
-                h5 #{todo.dueDate}
+                h5
+                  input(value=todo.dueDate name="newProjectDueDate" style="width: 100%; height: 100%;")
               .col-md-1
-                a(href=`/deleteproject/${todo.id}`)
+                a(href=`/profile/deleteproject/${todo.id}` style="margin-right: 1rem;")
                   h5.fa.fa-trash
-        hr
-      else
-        .row
-          .col-md-11
-            h3 You have no tasks to do, press the plus button to the right to create one.
-          .col-md-1
-            a(href='' data-toggle='modal' data-target='#projectModal')
-              h5 
-                i.fa.fa-plus
-        hr
+                a(href="")
+                  input(type="submit" value="✓")
+      hr
+      script.
+        for (let i = 0; i < document.getElementsByTagName('textarea').length; i++) {
+          autoExpand(document.getElementsByTagName('textarea')[i]);
+        }
+    else
+      .row
+        .col-md-11
+          h3 You have no tasks to do, press the plus button to the right to create one.
+        .col-md-1
+          a(href='' data-toggle='modal' data-target='#projectModal')
+            h5 
+              i.fa.fa-plus
+      hr
     #projectModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='projectModal' aria-hidden='true')
       .modal-dialog(role='document')
         .modal-content
@@ -49,7 +61,7 @@ block content
             .col-md-2
               button.close(type='button' data-dismiss='modal' aria-label='Close')
                 span(aria-hidden='true') &times;
-          form(action="/newproject", method="POST")
+          form(action="/profile/newproject", method="POST")
             .modal-body
               .row
                 .col-md-12
@@ -59,7 +71,7 @@ block content
                   br
                   .mb-3
                     label Describe your todo.
-                    input(type="text", name="todoDescription", placeholder="Description" required).form-control
+                    textarea(type="text", name="todoDescription", placeholder="Description").form-control
                   br
                   .mb-3
                     label When should this todo be done?
